@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE桌遊店家教學影片庫</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #e0e0e0;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .video-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+            border-color: #667eea;
+        }
+
+        .video-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .badge-category {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-difficulty {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .video-description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .video-keywords {
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .video-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .video-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .index-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .index-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .index-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .index-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 ONE桌遊店家教學影片庫</h1>
+        <p class="subtitle">設備維護與操作教學 - 完整分類版</p>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">9</div>
+                <div class="stat-label">教學影片</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">設備類型</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">90</div>
+                <div class="stat-label">服務店家</div>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 搜尋影片...（例如：門鎖、投幣、麻將桌）">
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('all')">📂 全部影片</button>
+            <button class="tab" onclick="showTab('door')">🚪 門禁系統</button>
+            <button class="tab" onclick="showTab('payment')">💰 收銀設備</button>
+            <button class="tab" onclick="showTab('billing')">💳 繳費系統</button>
+            <button class="tab" onclick="showTab('mahjong')">🀄 麻將桌</button>
+            <button class="tab" onclick="showTab('index')">📊 快速索引</button>
+        </div>
+
+        <div id="content">
+            <!-- 門禁系統 -->
+            <div class="category-section" data-category="door">
+                <h2 class="category-title">🚪 門禁系統 (3個影片)</h2>
+                <div class="video-grid">
+                    <div class="video-card" data-keywords="門鎖 安裝 智能鎖">
+                        <h3>門鎖安裝影片</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">門禁系統</span>
+                            <span class="badge badge-difficulty">⭐⭐ 中等</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>新店開張、門鎖更換
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：安裝、門鎖、智能鎖
+                        </div>
+                        <a href="https://studio.youtube.com/video/ayWS5GIqDSg/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+
+                    <div class="video-card" data-keywords="門鎖 配對 連線 設定">
+                        <h3>門鎖配對方式</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">門禁系統</span>
+                            <span class="badge badge-difficulty">⭐ 簡單</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>系統重置、新增門鎖
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：配對、連線、設定
+                        </div>
+                        <a href="https://studio.youtube.com/video/KBEiC-OauEg/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+
+                    <div class="video-card" data-keywords="門把 維修 螺絲 掉落">
+                        <h3>門把手掉落維修</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">門禁系統</span>
+                            <span class="badge badge-difficulty">⭐⭐ 中等</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>門把鬆脫、門把掉落
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：維修、門把、螺絲
+                        </div>
+                        <a href="https://studio.youtube.com/video/CHIsQ1rlJ_Y/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 收銀設備 -->
+            <div class="category-section" data-category="payment">
+                <h2 class="category-title">💰 收銀設備 (2個影片)</h2>
+                <div class="video-grid">
+                    <div class="video-card" data-keywords="投幣機 卡幣 清潔">
+                        <h3>投硬幣機卡幣</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">收銀設備</span>
+                            <span class="badge badge-difficulty">⭐ 簡單</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>硬幣卡住、無法投幣
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：投幣機、卡幣、清潔
+                        </div>
+                        <a href="https://studio.youtube.com/video/H9lr2ckZdEM/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+
+                    <div class="video-card" data-keywords="找零機 異常 校正">
+                        <h3>找零異常排除</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">收銀設備</span>
+                            <span class="badge badge-difficulty">⭐⭐ 中等</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>找零錯誤、不找零、找零過多
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：找零機、異常、校正
+                        </div>
+                        <a href="https://studio.youtube.com/video/xpCsSxLb6HM/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 繳費系統 -->
+            <div class="category-section" data-category="billing">
+                <h2 class="category-title">💳 繳費系統 (1個影片)</h2>
+                <div class="video-grid">
+                    <div class="video-card" data-keywords="智摸 更新 繳費機">
+                        <h3>智摸繳費機更新影片</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">繳費系統</span>
+                            <span class="badge badge-difficulty">⭐⭐ 中等</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>系統更新、版本升級
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：智摸、更新、繳費機
+                        </div>
+                        <a href="https://studio.youtube.com/video/QYCy9kUw3dg/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 麻將桌設備 -->
+            <div class="category-section" data-category="mahjong">
+                <h2 class="category-title">🀄 麻將桌設備 (3個影片)</h2>
+                <div class="video-grid">
+                    <div class="video-card" data-keywords="P1 介紹 功能 特色 麻將桌">
+                        <h3>ONE P1麻將桌介紹</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">麻將桌</span>
+                            <span class="badge badge-difficulty">⭐ 簡單</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>新手教學、客人詢問、新店訓練
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：P1、介紹、功能、特色
+                        </div>
+                        <a href="https://studio.youtube.com/video/Z67Mj24-XxA/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+
+                    <div class="video-card" data-keywords="輸送電機 更換 維修 麻將桌">
+                        <h3>輸送電機更換教學（標準版）</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">麻將桌</span>
+                            <span class="badge badge-difficulty">⭐⭐⭐ 進階</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>電機故障、輸送異常、標準情況
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：輸送電機、更換、維修
+                        </div>
+                        <a href="https://studio.youtube.com/video/wHsrfXMor4g/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+
+                    <div class="video-card" data-keywords="輸送電機 進階維修 複雜 麻將桌">
+                        <h3>複雜版更換輸送電機教學</h3>
+                        <div class="video-meta">
+                            <span class="badge badge-category">麻將桌</span>
+                            <span class="badge badge-difficulty">⭐⭐⭐⭐ 專家級</span>
+                        </div>
+                        <div class="video-description">
+                            <strong>適用場景：</strong>複雜故障、多重問題、標準方法無效
+                        </div>
+                        <div class="video-keywords">
+                            關鍵字：輸送電機、進階維修、複雜情況
+                        </div>
+                        <a href="https://studio.youtube.com/video/nhk_B9SmPAw/edit" target="_blank" class="video-link">▶ 觀看影片</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 快速索引表 -->
+            <div class="category-section hidden" data-category="index">
+                <h2 class="category-title">📊 快速索引表</h2>
+                <table class="index-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>影片名稱</th>
+                            <th>設備類型</th>
+                            <th>難度</th>
+                            <th>影片ID</th>
+                            <th>連結</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>門鎖安裝影片</td>
+                            <td>門禁系統</td>
+                            <td>⭐⭐</td>
+                            <td>ayWS5GIqDSg</td>
+                            <td><a href="https://studio.youtube.com/video/ayWS5GIqDSg/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>門鎖配對方式</td>
+                            <td>門禁系統</td>
+                            <td>⭐</td>
+                            <td>KBEiC-OauEg</td>
+                            <td><a href="https://studio.youtube.com/video/KBEiC-OauEg/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>門把手掉落維修</td>
+                            <td>門禁系統</td>
+                            <td>⭐⭐</td>
+                            <td>CHIsQ1rlJ_Y</td>
+                            <td><a href="https://studio.youtube.com/video/CHIsQ1rlJ_Y/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>投硬幣機卡幣</td>
+                            <td>收銀設備</td>
+                            <td>⭐</td>
+                            <td>H9lr2ckZdEM</td>
+                            <td><a href="https://studio.youtube.com/video/H9lr2ckZdEM/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>找零異常排除</td>
+                            <td>收銀設備</td>
+                            <td>⭐⭐</td>
+                            <td>xpCsSxLb6HM</td>
+                            <td><a href="https://studio.youtube.com/video/xpCsSxLb6HM/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>智摸繳費機更新</td>
+                            <td>繳費系統</td>
+                            <td>⭐⭐</td>
+                            <td>QYCy9kUw3dg</td>
+                            <td><a href="https://studio.youtube.com/video/QYCy9kUw3dg/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>ONE P1麻將桌介紹</td>
+                            <td>麻將桌</td>
+                            <td>⭐</td>
+                            <td>Z67Mj24-XxA</td>
+                            <td><a href="https://studio.youtube.com/video/Z67Mj24-XxA/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>輸送電機更換（標準）</td>
+                            <td>麻將桌</td>
+                            <td>⭐⭐⭐</td>
+                            <td>wHsrfXMor4g</td>
+                            <td><a href="https://studio.youtube.com/video/wHsrfXMor4g/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>輸送電機更換（複雜）</td>
+                            <td>麻將桌</td>
+                            <td>⭐⭐⭐⭐</td>
+                            <td>nhk_B9SmPAw</td>
+                            <td><a href="https://studio.youtube.com/video/nhk_B9SmPAw/edit" target="_blank" class="video-link">▶ 開啟</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 分類切換
+        function showTab(category) {
+            const tabs = document.querySelectorAll('.tab');
+            const sections = document.querySelectorAll('.category-section');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                sections.forEach(section => {
+                    if (section.dataset.category !== 'index') {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            } else if (category === 'index') {
+                sections.forEach(section => {
+                    if (section.dataset.category === 'index') {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            } else {
+                sections.forEach(section => {
+                    if (section.dataset.category === category) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            }
+        }
+
+        // 搜尋功能
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const videoCards = document.querySelectorAll('.video-card');
+            
+            videoCards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                const keywords = card.dataset.keywords.toLowerCase();
+                const description = card.querySelector('.video-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || keywords.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
